@@ -47,10 +47,12 @@ python Model.py <file.csv> [<int.numer_of_features>]
 ===============================================================================
 
 Included files:
+
 em_esl8_5.py        - a sample code to help us understanding EM from ISL, by Daksh Shukla.
 Model.py            - main program to model the distribution, by Ben.
 Iris.csv            - data set 1 from Kaggle
 winequality-red.csv - data set 2 from Kaggle
+
 winequality_clustering.pdf/txt
                     - result of modeling winequality-red.csv using 2 features. ~.txt showes 
                       the parameter for each Gaussian of the misture, ~.pdf shows the 
