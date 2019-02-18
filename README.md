@@ -4,13 +4,14 @@ Given by Dr. Martin Kuehnhausen
 From (author) Ben Liu, Daksh Shukla
 
 ===============================================================================
+
 Idea of model the distribution within the data:
 According to texture book PRML(9), we can apply K-means to roughly cluster the
 data points first, to save the cost of computing variances in EM, and then apply
 EM to modelling Gaussian mixtures. Here we only focus on continuous feature.
 1) we first normalize each feature by mapping original value to interval [0, 1], 
    then apply K-means to cluster the data-points.
-2) starting from K = 1, the maximal number of repeats are set to be 100, K are
+2) starting from K = 2, the maximal number of repeats are set to be 100, K are
    set to be strictly smaller than [data_amount/13], to control running time.
    2.a) we randomly pick K data points as the centers.
    2.b) compute the distance of all data points to these centers.
@@ -36,6 +37,7 @@ EM to modelling Gaussian mixtures. Here we only focus on continuous feature.
    2, we will output the scatter of data points, before and after the clusterring.
    
 ===============================================================================
+
 Call the program by:
 python Model.py <file.csv> [<int.numer_of_features>]
 
@@ -43,9 +45,33 @@ python Model.py <file.csv> [<int.numer_of_features>]
 
 
 ===============================================================================
+
 Included files:
 em_esl8_5.py        - a sample code to help us understanding EM from ISL, by Daksh Shukla.
 Model.py            - main program to model the distribution, by Ben.
 Iris.csv            - data set 1 from Kaggle
 winequality-red.csv - data set 2 from Kaggle
+winequality_clustering.pdf/txt
+                    - result of modeling winequality-red.csv using 2 features. ~.txt showes 
+                      the parameter for each Gaussian of the misture, ~.pdf shows the 
+                      clusterring results.
+winequality_fitting.pdf/txt   
+                    - result of modeling winequality-red.csv using 1 features. ~.txt showes 
+                      the parameter for each Gaussian of the misture, ~.pdf shows the 
+                      fitting results, noted that the program fixes the number of bins in hist,
+                      so it may seem skewed.
+Iris_clustering.pdf/txt, Iris_fitting.pdf/txt           
+                    - similar results, but for Iris.csv
+                    
+===============================================================================
+
+some discussion:
+1) In practice, we cannot guarantee the data coming from a mixture, instead of one Gaussian, so 
+   the K-means should start from K = 1. Here we make it 2 to force the program to model the 
+   distribution using mixture. 
+   On the other hand, from winequality_clustering.txt, which uses 6 Gaussians to model the 
+   distribution, but Pi_0, Pi_2 and Pi_4 are less than 0.1, so they didnot play importance roles
+   in the mixture compared to the other 3 Gaussians. So we think it's okay to start from K = 2.
+2) since we randomly initialize the centers for K-means, the results might be different even for 
+   the same data set. PRML did mention this is a problem for K-means.
 
