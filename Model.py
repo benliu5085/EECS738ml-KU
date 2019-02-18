@@ -113,7 +113,7 @@ data = (raw_data - B) * K
 """2: cluster by K-means, determine K automatically """
 print(
 "----------step 1: clustering using K-Means------------------------------------\n")
-cnt_cluster = 1
+cnt_cluster = 2
 while cnt_cluster < len(data)/BATCH_BOUND:
     print("trying " + str(cnt_cluster) + " cluster...")
     temp_cluster = kmCluster(data, cnt_cluster)
