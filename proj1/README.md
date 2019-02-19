@@ -97,5 +97,7 @@ some discussion:
    distribution, but Pi_0, Pi_2 and Pi_4 are less than 0.1, so they didnot play importance roles
    in the mixture compared to the other 3 Gaussians. So we think it's okay to start from K = 2.
 2) since we randomly initialize the centers for K-means, the results might be different even for 
-   the same data set. PRML did mention this is a problem for K-means.
+   the same data set. PRML did mention this is a problem for K-means. A better approach according
+   to Dr.Kuehnhausen (2/18/2019, too late to implement) should be to use many, say 100 centers to 
+   cluster the data and then merge centers close to each other, to determine K.
 
