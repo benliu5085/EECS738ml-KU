@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Feb 15 16:31:56 CST 2019
-Run on Python 2.7.15
+
 @author: ben
 """
 
 import pandas
 import sys
-import random
+import random   # obsolete
 import numpy as np
 import copy
 import matplotlib.pyplot as plt
 import matplotlib._color_data as mcd
 from scipy.stats import norm
+import Queue
 
 """********************** Macro definition **********************************"""
-NUMBER_OF_FEATURE = 1               # number of feature that we are going to use
+NUMBER_OF_FEATURE = 2               # number of feature that we are going to use
 FEATURE_TYPE = ['float']            # types of feature that we are going to choose
 BATCH_BOUND = 13                    # minimal number of data points for a cluster
 MAXIMAL_REPEAT = 100                # maximal times of iterations
@@ -30,41 +31,67 @@ def dist(example, cc):
         KC = np.append(KC, cc[i], 0)
     for i in range(0, len(KC)):
         KC[i] = KC[i] - example
-    return (KC*KC.transpose()).diagonal()
+    return (KC*KC.T).diagonal()
 
-def kmCluster(data_in, K):
-    if K == 1:
-        return [data_in]
-    centers = random.sample(data_in, K)
+def gridCluster(data_in):
+    tk = np.linspace(0,1,11)
+    xx, yy = np.meshgrid(tk, tk, sparse=False)
+    cmx = np.matrix([xx.flatten(),yy.flatten()]).T
+    centers = []
+    for i in cmx:
+        centers.append(i)
     for cnt_repeat in range(0, MAXIMAL_REPEAT):
-        ff_restart = False
+        print("now we have " + str(len(centers)) + " clusters")
         clusters = copy.copy(centers)
         for i in range(0, len(data_in)):
             t = dist(data_in[i], centers)
             clr_id = (t.argmin(1))[0,0]
             clusters[clr_id] = np.append(clusters[clr_id], data_in[i], 0)
-        for i in range(0, len(centers)):
-            clusters[i] = np.delete(clusters[i], 0, 0) # remove the repeated center from each cluster
+        # remove the repeated center from each cluster
         new_centers = []
-        for cm in clusters:
-            if len(cm) == 0:
-                # restart when there is an empty cluster
-                new_centers = random.sample(data_in, K)
-                ff_restart = True
-                break
+        for i in range(0, len(clusters)):
+            clusters[i] = np.delete(clusters[i], 0, 0)
+            if len(clusters[i]) > 0:
+                new_centers.append(clusters[i].mean(0))
             else:
-                new_centers.append(cm.mean(0))
-        if not ff_restart:
-            move_dist = 0
-            for i in range(0, len(centers)):
-                move_dist += ((centers[i]-new_centers[i])*(centers[i]-new_centers[i]).transpose())[0,0]
-            if move_dist < EPISILON: # quick stop condition : didn't move much
-                break
-        centers = copy.copy(new_centers)
+                new_centers.append(centers[i])
+        move_dist = 0
+        for i in range(0, len(centers)):
+            move_dist += ((centers[i]-new_centers[i])*(centers[i]-new_centers[i]).T)[0,0]
+        if move_dist < EPISILON: # quick stop condition : didn't move much
+            break
+        # remove centers for empty cluster
+        temp_centers = []
+        for i in range(0, len(centers)):
+            if ((centers[i]-new_centers[i])*(centers[i]-new_centers[i]).T)[0,0] != 0:
+                temp_centers.append(new_centers[i])
+        # merge centers using greedy, merge in place
+        centers = []
+        while len(temp_centers) > 2:
+            t = dist(temp_centers[0], temp_centers[1:])
+            min_t = (t.min(1))[0,0]
+            min_t_id = (t.argmin(0))[0,0]
+            if min_t < EPISILON1:
+                centers.append((temp_centers[0] + temp_centers[min_t_id])/2)
+                temp_centers.remove(temp_centers[0])
+                temp_centers.remove(temp_centers[min_t_id])
+            else:
+                centers.append(temp_centers[0])
+                temp_centers.remove(temp_centers[0])
+
+        if len(temp_centers) == 2:
+            if ((temp_centers[0]-temp_centers[1])*(temp_centers[0]-temp_centers[1]).T)[0,0] < EPISILON1:
+                centers.append((temp_centers[0] + temp_centers[1])/2)
+            else:
+                centers.append(temp_centers[0])
+                centers.append(temp_centers[1])
+        elif len(temp_centers) == 2:
+            centers.append(temp_centers[0])
+
     return clusters
 
 def multi_gauss_fun(Vx, Vmu, Vsigma):
-    return (1/(np.sqrt(np.power((2*np.pi),len(Vsigma))*np.linalg.det(Vsigma))))*np.exp(-0.5*((Vx-Vmu)*(Vsigma.getI())*((Vx-Vmu).transpose()))[0,0])
+    return (1/(np.sqrt(np.power((2*np.pi),len(Vsigma))*np.linalg.det(Vsigma))))*np.exp(-0.5*((Vx-Vmu)*(Vsigma.getI())*((Vx-Vmu).T))[0,0])
 
 
 """************************ Usage *******************************************"""
@@ -97,7 +124,7 @@ chosen_col = []
 if len(pool) <= NUMBER_OF_FEATURE:
     chosen_col = pool
 else:
-    chosen_col = random.sample(pool, NUMBER_OF_FEATURE)
+    chosen_col = np.random.choice(pool, NUMBER_OF_FEATURE)
 
 # normalization
 raw_data = np.matrix(df1.loc[:,chosen_col])
@@ -113,28 +140,7 @@ data = (raw_data - B) * K
 """2: cluster by K-means, determine K automatically """
 print(
 "----------step 1: clustering using K-Means------------------------------------\n")
-cnt_cluster = 2
-while cnt_cluster < len(data)/BATCH_BOUND:
-    print("trying " + str(cnt_cluster) + " cluster...")
-    temp_cluster = kmCluster(data, cnt_cluster)
-    cnt_outliers = 0
-    for cm in temp_cluster:
-        this_c = cm.mean(0)
-        this_std = cm.std(0, ddof = 1)
-        for pp in cm:
-            diff_v = pp - this_c
-            if (diff_v*(diff_v.transpose()))[0,0] > (LEVEL_OF_CONFIDENCE*LEVEL_OF_CONFIDENCE*(this_std*(this_std.transpose()))[0,0]):
-                cnt_outliers += 1
-            if cnt_outliers > BATCH_BOUND:
-                break
-        if cnt_outliers > BATCH_BOUND:
-            break
-
-    print(str(cnt_outliers) + " outliers\n")
-    if cnt_outliers > BATCH_BOUND:
-        cnt_cluster += 1
-    else:
-        break
+temp_cluster = gridCluster(data)
 
 """3: Model parameter using EM algorithm """
 # could vectorization to speed up
@@ -180,16 +186,16 @@ for cnt_repeat in range(0, MAXIMAL_REPEAT):
 
     New_Sigma = [0] * len(temp_cluster)
     for k in range(0, len(temp_cluster)):
-        temp = Gamma[0,k] * (data[0]-New_Mu[k]).transpose() * (data[0]-New_Mu[k])
+        temp = Gamma[0,k] * (data[0]-New_Mu[k]).T * (data[0]-New_Mu[k])
         for i in range(1, len(data)):
-            temp += Gamma[i,k] * (data[i]-New_Mu[k]).transpose() * (data[i]-New_Mu[k])
+            temp += Gamma[i,k] * (data[i]-New_Mu[k]).T * (data[i]-New_Mu[k])
         New_Sigma[k] = temp / NK[k]
 
     # convergence
     div = 0
     for k in range(0, len(temp_cluster)):
         div += np.power((New_Pi[k] - Pi[k]), 2)
-        div += ((New_Mu[k]-Mu[k])*(New_Mu[k]-Mu[k]).transpose())[0,0]
+        div += ((New_Mu[k]-Mu[k])*(New_Mu[k]-Mu[k]).T)[0,0]
         div += np.sum(np.multiply(New_Sigma[k]-Sigma[k],New_Sigma[k]-Sigma[k]))
 
     if cnt_repeat % 10 == 0:
