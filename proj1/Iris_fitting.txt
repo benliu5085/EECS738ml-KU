@@ -1,0 +1,4 @@
+Modelling using 1 Gaussians
+Pi_0:    1.0
+Mu_0:    0.4675706214689266
+Sigma_0: 0.08883726
