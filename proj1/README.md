@@ -3,6 +3,8 @@ This the source code for project 1 of EECS 738 machine learning
 Given by Dr. Martin Kuehnhausen
 From (author) Ben Liu, Daksh Shukla
 
+!!! please use Python 2.7.15 to run the program.
+
 ===============================================================================
 
 Idea of model the distribution within the data:
