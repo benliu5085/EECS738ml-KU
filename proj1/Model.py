@@ -16,7 +16,7 @@ from scipy.stats import norm
 import Queue
 
 """********************** Macro definition **********************************"""
-NUMBER_OF_FEATURE = 2               # number of feature that we are going to use
+NUMBER_OF_FEATURE = 1               # number of feature that we are going to use
 FEATURE_TYPE = ['float']            # types of feature that we are going to choose
 BATCH_BOUND = 13                    # minimal number of data points for a cluster
 MAXIMAL_REPEAT = 100                # maximal times of iterations
