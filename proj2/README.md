@@ -40,7 +40,7 @@ To make things easier, we also included a toy example, a occasionally dishonest 
 The HMM is used to describe the process of rolling 6-side die, the dice could be either a fair dice or a loaded die. The loaded die has probability 0.5 of a '6' and probability 0.1 for the numbers '1' to '5'. If the casino is using the fair die, then the probability they are going to switch to loaded die is 0.05; 0.1 vice versa.
 
 rollDice.py   -- the program to simulate die sequence from the described process above.
-pure_seq.txt  -- one generated sequence of length 30,000
+pure_seq.txt  -- one generated sequence of length 6,000
 toy_train.py, toyhmm_parameter.txt, toy_estimate.py
               -- the same as before but for the toy example.
               
