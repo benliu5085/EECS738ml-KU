@@ -8,7 +8,7 @@ else:
 
 seq = ""
 path = ""
-for i in range(1,30001):
+for i in range(1,6001):
     t = np.random.random()
     d = np.random.random()
     if ff_dice == 1:
