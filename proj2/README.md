@@ -28,14 +28,18 @@ We will determine the given sequence coming from the HMM by:
      from the HMM. 
 
 ===== Included files ==============================================================
+
 alllines.txt -- training data from https://www.kaggle.com/kingburrito666/shakespeare-plays
+
 HMM_log.py   -- functions that is used by HMM, it should be noted that the forward-backward algorithm 
                 and Baum-Welch algorithm are scaled by taking logarithms of all probabilities 
                 (and their intermidiate value). But the Viterbi algorithm is still computing i
                 n the real probability domain.
+                
 train.py     -- the program to load data from alllines.txt and train HMM using functions in HMM_log.py, 
                 call it by:
                   python2 train.py
+                  
 hmm_parameter.txt
              -- the file containing all pre-trained parameter since it takes a while to train HMM
                 the first line is the number of states, N, used in the HMM;
@@ -44,6 +48,7 @@ hmm_parameter.txt
                 the fourth to 4+N lines are the transition probability matrix, A;
                 the rest of lines are the emission probability matrix, B.
                 !!! This set of parameters are trained on a subset of shakespeare-plays, play with it with caution.
+                
 estimate.py  -- the program to estimate a given sequence is a "shakespeare" sentence or not. By default 
                 the program will use "a question not to be asked" as example sentences. 
                 But user can use other sentence by calling it:
@@ -52,6 +57,7 @@ estimate.py  -- the program to estimate a given sequence is a "shakespeare" sent
                 Since we didn't train HMM on whole data set, the probability is not very convincing, so
                 we determine the Sequence to be true if the estimated probability is higher than m_bg.
   
+  
 To make things easier, we also included a toy example, a occasionally dishonest casino:
 The HMM is used to describe the process of rolling 6-side die, the dice could be either a fair dice 
 or a loaded die. The loaded die has probability 0.5 of a '6' and probability 0.1 for the numbers '1' to '5'. 
@@ -59,8 +65,11 @@ If the casino is using the fair die, then the probability they are going to swit
 0.1 vice versa.
 
 rollDice.py   -- the program to simulate die sequence from the described process above.
+
 pure_seq.txt  -- one generated sequence of length 300.
+
 toy_train.py, toyhmm_parameter.txt, toy_estimate.py
+
               -- the same as before, but for the toy example. toy_estimate.py implemented the determine algorithm
                  describe above.
               
