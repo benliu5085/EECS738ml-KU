@@ -2,7 +2,7 @@ from HMM_log import *
 import numpy as np
 import sys
 
-with open("toyhmm_parameter.txt",'r') as fin:
+with open("hmm_parameter.txt",'r') as fin:
     N = 0
     cnt = 0
     alphabet = []
@@ -36,30 +36,16 @@ initP = np.array(P)
 trP   = np.array(A)
 emP   = np.array(B)
 
-seq = "36266666625151"
+seq = "a question not to be asked"
 if len(sys.argv) == 2:
     seq = sys.argv[1]
 
-test_seq = list(seq)
+test_seq = seq.split()
 print("test_seq1: " + str(test_seq))
-(V, PTR) = viterbiHMM(list("123456"), test_seq, trP, emP, initP)
-tscore = np.max(V[-1,])
-print(tscore)
+(V, PTR) = viterbiHMM(alphabet, test_seq, trP, emP, initP)
+print(np.max(V[-1,]))
 
-
-# determine
-ss = []
-for i in range(0,100):
-    b_seq = np.random.choice(list('123456'), len(seq)).tolist()
-    (V, PTR) = viterbiHMM(list("123456"), b_seq, trP, emP, initP)
-    ss.append(np.max(V[-1,]))
-
-background = np.array(ss)
-mb = np.mean(background)
-sb = np.std(background)
-print(mb)
-print(sb)
-if -3*sb <= tscore - mb < 3*sb:
-    print(seq + " doesn't come from the HMM")
-else:
-    print(seq + " comes from the HMM")
+np.random.shuffle(test_seq)
+print("test_seq2: " + str(test_seq))
+(V, PTR) = viterbiHMM(alphabet, test_seq, trP, emP, initP)
+print(np.max(V[-1,]))

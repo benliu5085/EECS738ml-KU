@@ -53,25 +53,11 @@ def backwardHMM(alphabet, O, A, B, P):
             ELNB[t,i] = logbeta
     return ELNB
 
-def trainHMM(N, alphabet, O, CC):
+def trainHMM(N, alphabet, O, CC, A, B, P):
     """ Train HMM using Baum-Welch algorithm """
     K = range(0,N)  # states, 0, 1, ... , N-1
     T = len(O)      # number of observations
-    A = np.zeros((len(K), len(K)))
-    B = np.zeros((len(K), len(alphabet)))
-    P = np.random.random_sample((len(K)))
-
-    """random initialization"""
-    P = P/P.sum()
-
-    for i in range(0, A.shape[0]):
-        t = np.random.random_sample((A.shape[1]))
-        A[i,] = t/t.sum()
-
-    for i in range(0, B.shape[0]):
-        t = np.random.random_sample((B.shape[1]))
-        B[i,] = t/t.sum()
-
+    
     """forard and backward algorithm"""
     for cnt in range(0, CC):
         ELNA = forardHMM(alphabet, O, A, B, P)
