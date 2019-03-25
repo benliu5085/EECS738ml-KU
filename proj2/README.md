@@ -24,8 +24,8 @@ HMM_log.py   -- functions that is used by HMM, it should be noted that the forwa
                 is still computing in the real probability domain.
 train.py     -- the program to load data from alllines.txt and train HMM using functions in HMM_log.py, call it by:
                   python2 train.py
-estimate.py  -- the program to estimate a given sequence is a "shakespeare" sentence or not. By default the program will use   
-                "to be or not to be" as example sentences. But user can use other sentence by calling it:
+estimate.py  -- the program to estimate a given sequence is a "shakespeare" sentence or not. By default the program will use 
+                "a question not to be asked" as example sentences. But user can use other sentence by calling it:
                   python2 estimate.py <sentence>
                 it should be noted that all words must be in the alllines.txt, and be lower case.
 hmm_parameter.txt
@@ -35,6 +35,7 @@ hmm_parameter.txt
                 the third line is the initial state probability, P;
                 the fourth to 4+N lines are the transition probability matrix, A;
                 the rest of lines are the emission probability matrix, B.
+                !!! This set of parameters are trained on a subset of shakespeare-plays, play with it with caution.
 
 To make things easier, we also included a toy example, a occasionally dishonest casino:
 The HMM is used to describe the process of rolling 6-side die, the dice could be either a fair dice or a loaded die. The loaded die has probability 0.5 of a '6' and probability 0.1 for the numbers '1' to '5'. If the casino is using the fair die, then the probability they are going to switch to loaded die is 0.05; 0.1 vice versa.
