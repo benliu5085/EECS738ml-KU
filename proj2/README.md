@@ -48,4 +48,4 @@ toy_train.py, toyhmm_parameter.txt, toy_estimate.py
 1) It's of great difficlty to choose the number of state for HMM, it takes efforts and experience to find a "best" parameter.
 2) We need a better way to decouple the effect of sequence length on the estiamted probability.
 3) The time complexity of Baum-Welch algorithm is roughly O(N^2*m*T), where N is the number of states, m is the number of words in alphabet and T is the length of the training sequence. It seems expensive to apply it directly to big data set.
-4) The implemented HMM can only allow global alignment, i.e, the first observation in the given sequence is assumed more likely to come from the first state, even though it's not necessarily to be true.
+4) The implemented HMM can only allow global alignment, i.e, the first observation in the given sequence is assumed more likely to come from the first state, even though it's not necessarily to be true. This can be solved by add 2 special states one for jumping to any state, one for jump out of any state.
