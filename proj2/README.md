@@ -54,7 +54,7 @@ findPath.py
                 this program apply Viterbi algo to estimate the probability of the given sequence coming from the HMM, 
                 and find the sequence of states(path) that emit each word in the given sentence. As mentioned above
                 the states label set is {0,1,...,N-1}. 
-                By default the sentence is "we two saw you four set on four and bound them".
+                By default the sentence is "a thousand of his people butchered".
                 call it by:
                   python2 findPath.py <sentence>
   
