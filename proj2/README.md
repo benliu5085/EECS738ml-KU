@@ -83,4 +83,6 @@ toy_estimate.py
 
 ===== Discussion ==========================================================================
 1) We need a better way to decouple the effect of sequence length on the estiamted probability.
-2) The time complexity of Baum-Welch algorithm is roughly O(N^2*m*T), where N is the number of states, m is the number of words in alphabet and T is the length of the training sequence. It seems expensive to apply it directly to big data set. According to Dr. Kuehnhausen, we could apply the "drop-out" strategy to emission probability to speed the training process, but not implemented now.
+2) The time complexity of Baum-Welch algorithm is roughly O(N^2*m*T), where N is the number of states, m is the number of words in alphabet and T is the length of the training sequence. And profiling shows that my training has O(L^2) time complexity, where L is the number of lines in training set.
+It seems expensive to apply it directly to big data set. According to Dr. Kuehnhausen, we could apply the "drop-out" strategy to emission probability to speed the training process, but not implemented now.
+
