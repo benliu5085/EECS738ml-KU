@@ -1,4 +1,4 @@
-This the source code for project 1 of EECS 738 machine learning 
+This the source code for project 2 HMM of EECS 738 machine learning 
 Given by Dr. Martin Kuehnhausen From (author) Ben Liu
 
 ===== Ideas ==============================================================
