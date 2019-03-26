@@ -36,7 +36,7 @@ initP = np.array(P)
 trP   = np.array(A)
 emP   = np.array(B)
 
-seq = "we two saw you four set on four and bound them"
+seq = "a thousand of his people butchered"
 if len(sys.argv) == 2:
     seq = sys.argv[1]
 
