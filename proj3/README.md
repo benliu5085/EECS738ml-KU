@@ -12,7 +12,7 @@ t10k-images-idx3-ubyte
 t10k-labels-idx1-ubyte
 train-images-idx3-ubyte
 train-labels-idx1-ubyte
-         -- mnist data set
+         -- mnist data set, unzip them first
          
 abalone.py -- source code to train and test on abalone data set.
 abalone.csv -- balone data set.
