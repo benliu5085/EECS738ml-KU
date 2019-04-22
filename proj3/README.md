@@ -69,9 +69,11 @@ The Trained networks achieve accumulated square error 10.33 on testing set.
 ================================================================================
 
 some discussion
+
 (1) In order to squeeze out all performance, one need to compare training error and test error to 
 find out the optimal hyperparameters, including networks structure, batch size and number of 
 epochs, etc. One might also want to use cross valiadation to confirm training properly.
+
 (2) I tried to implement convolutional neural networks, but the backward propagation stage is too tricky:
 pooling layer has no parameter and it change the size of the tensor, so I am not sure how to compute the 
 gradient using BP algorithm. In fact, I read something about upsample and only propagate the error to those
