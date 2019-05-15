@@ -20,9 +20,9 @@ def map(x,y,ss = 27):
             if dice < 0.5:
                 if j % 2 == 1:
                     ans[i,j] = -1
-            elif dice < 0.65:
+            elif dice < 0.6:
                 ans[i,j] = -5
-            elif dice < 0.8:
+            elif dice < 0.7:
                 ans[i,j] = 10
 
     tx = np.random.randint(x)
