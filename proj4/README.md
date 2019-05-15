@@ -27,6 +27,8 @@ myTH_4.py -- the treasure hunt game in which the agent can only perform 4 action
 myTH_5.py -- the treasure hunt game in which the agent can only perform 5 actions, including explore.
 toy_4.py  -- code for the toy example latter
 toy_5.py  -- code for the toy example latter
+map_10.csv -- the map file, 0 for nothing, -1 for blocker, -5 for trap, 10 for life-supply, 50 for trophy.
+all q_table_xx.csv are the final q_table after training.
 
 ===== toy example and analysis ===========================================
 
@@ -49,6 +51,4 @@ X stands for blocker, they are at (1,1) and (1,3), so the agent can never go to 
 By calling toy_4.py, the final solution the agent made is ['down', 'down', 'right', 'right', 'right'], so it finished the goal, with a final LP of 45.
 By calling toy_5.py, then final solution the agent made is ['right', 'right', 'down', 'explore', 'down', 'right'], so it finished the goal too, but with a final LP of 50. Apparently, with the ability to explore the local environment, the agent is able to find a more globally optimal solution to finish the treasure hunting game. 
 I use "more" above because my code cannot actually guarantee the global optimality of the final solution, for example, again, if the agent starts from (1,0), the global optimal solution should be ['down', 'right', 'right', 'up', 'up', 'down', 'down', 'right'] with final LP of 52, but both of the agent above will give the same solution ['down', 'right', 'right', 'right'] with LP of 46.
-
-
 
