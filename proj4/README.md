@@ -35,14 +35,14 @@ all q_table_xx.csv are the final q_table after training.
 for simplicity, I will use a toy example to explain what happens when the agent can perform explore action.
 
 The toy map is a 3-by-4 grid:
- 0 1 2 3
-+-------+
-|S T H  |
-|  X   X|
-|      E|
-+-------+
+STHN
+
+NXNX
+
+NNNE
 
 where:
+N is empty block.
 S is the place where the agent start from.
 E is the trophy.
 T stands for trap, we only have 1 here.
