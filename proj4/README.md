@@ -41,6 +41,7 @@ The toy map is a 3-by-4 grid:
 |  X   X|
 |      E|
 +-------+
+
 where:
 S is the place where the agent start from.
 E is the trophy.
