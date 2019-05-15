@@ -1,6 +1,6 @@
 import numpy as np
 
-ACTION_SPACE = {0:'up', 1:'down', 2:'right', 3:'left'} # , 4:'explore'
+ACTION_SPACE = {0:'up', 1:'down', 2:'right', 3:'left'} 
 GRID_X = 10
 GRID_Y = 10
 
@@ -56,11 +56,7 @@ def sampleAction():
 
 def getReward(M, state, action):
     """ return reward and other info.
-        NOTE: each action takes 1 life, no matter what.
-        if IE = false:
-            return rewards of nearby 4 blocks, take 1 LP off
-        if IE = true:
-            return rewards of nearby 12 blocks that can be reached by 2 action, take 2 LP off
+        NOTE: each action takes 1 LP, no matter what.
     """
     x = int(state / GRID_Y)
     y = int(state % GRID_Y)
