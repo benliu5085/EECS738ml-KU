@@ -35,6 +35,7 @@ all q_table_xx.csv are the final q_table after training.
 for simplicity, I will use a toy example to explain what happens when the agent can perform explore action.
 
 The toy map is a 3-by-4 grid:
+
 STHN
 
 NXNX
